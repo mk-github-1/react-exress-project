@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './assets/App.css'
 import styled from 'styled-components'
+import { HeaderView } from './views/_layouts/HeaderView'
+import { MenuView } from './views/_layouts/MenuView'
+import { SidebarView } from './views/_layouts/SidebarView'
+import { FooterView } from './views/_layouts/FooterView'
 
 const App = (): JSX.Element => {
   const [count, setCount] = useState(0)
@@ -12,12 +14,14 @@ const App = (): JSX.Element => {
       <div className="wrapper-container">
         <div className="header">
           <header>
-            {/* <HeaderView /> */} <b>Vite + React (header)</b>
+            <HeaderView />
           </header>
         </div>
 
         <div className="global-navigation">
-          <nav>{/* <MenuView /> */}navigation</nav>
+          <nav>
+            <MenuView />
+          </nav>
         </div>
         <div className="content">
           <main>
@@ -31,18 +35,7 @@ const App = (): JSX.Element => {
         </div>
         <div className="footer">
           <footer>
-            {/* <FooterView /> */}footer{' '}
-            <a href="https://vitejs.dev" target="_blank">
-              <img src={viteLogo} className="logo" alt="Vite logo" />
-            </a>
-            <a href="https://react.dev" target="_blank">
-              <img src={reactLogo} className="logo react" alt="React logo" />
-            </a>
-            {/* <p className="read-the-docs">Click on the Vite and React logos to learn more</p> */}
-            <span>
-              Edit <code>src/App.tsx</code> and save to test HMR /{' '}
-            </span>
-            <span className="read-the-docs">Click on the Vite and React logos to learn more.</span>
+            <FooterView />
           </footer>
         </div>
       </div>
