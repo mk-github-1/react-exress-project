@@ -3,7 +3,7 @@ import './assets/App.css'
 import styled from 'styled-components'
 import { HeaderView } from './views/_layouts/HeaderView'
 import { MenuView } from './views/_layouts/MenuView'
-import { SidebarView } from './views/_layouts/SidebarView'
+// import { SidebarView } from './views/_layouts/SidebarView'
 import { FooterView } from './views/_layouts/FooterView'
 
 const App = (): JSX.Element => {

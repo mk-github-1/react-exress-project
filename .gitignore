@@ -125,3 +125,17 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Add ##########
+# sqlite3
+# data.db
+
+# typorm
+migrations
+
+# env
+.env
+
+# storybook
+.storybook
+stories
