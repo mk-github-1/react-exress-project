@@ -1,0 +1,82 @@
+コマンドはPower Shellを使用する
+VS Codeのルートプロジェクトにsettings.jsonにセキュリティポリシーを設定していれば、
+VS Codeのターミナルでも実行できる。
+
+--------------------------------------------------
+■ Node version manager(nvm)インストール
+・Node.js 20をインストール
+> nvm install 20
+
+・使用コマンド
+> nvm use 20
+> nvm current
+> nvm list
+
+--------------------------------------------------
+■ Power Shellセキュリティポリシーの変更
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+※.vscode/settings.jsonでもしている
+
+--------------------------------------------------
+■ グローバル設定の確認
+・グローバル設定の確認
+> npm list -g --depth 0
+
+C:\Program Files\nodejs -> .\
++-- corepack@0.23.0
+`-- npm@10.2.4
+
+--------------------------------------------------
+■ VS Code拡張機能の設定
+・インストールするもの
+Japanese Language Pack for Visual Studio Code
+Prettier - Code formatter
+
+・VS Code Prittier設定
+Editer: Default Formatter
+  Prettier - Code formatter
+  
+Editer: Format On Save
+  チェックを入れる
+
+VS Codeを再起動
+
+--------------------------------------------------
+■ プロジェクトフォルダ準備(パス、フォルダは任意)
+・フォルダ作成
+> cd c:\vscode_workspace
+> vue-project
+
+・フォルダ移動
+> cd c:\vscode_workspace\vue-project
+
+--------------------------------------------------
+■ frontendプロジェクトの準備
+・frontendプロジェクトを作成(create-vueを使用) ※npxコマンドを使用
+> npx create vue@latest
+
+✔ Project name: … frontend
+✔ Add TypeScript? … No / ○ Yes
+✔ Add JSX Support? … No / ○ Yes
+✔ Add Vue Router for Single Page Application development? … No / ○ Yes
+✔ Add Pinia for state management? … No / ○ Yes
+✔ Add Vitest for Unit testing? … No / ○ Yes
+✔ Add an End-to-End Testing Solution? … No / Cypress / ○ Playwright
+✔ Add ESLint for code quality? … No / ○ Yes
+✔ Add Prettier for code formatting? … No / ○ Yes
+
+Scaffolding project in .frontend...
+Done.
+
+・package.jsonにライブラリを追加
+コピペでOK、解説準備
+
+・npmインストール
+> npm install
+
+・.vscode/launch.json、.vscode/settings.jsonの設定を追加
+コピペでOK、再起動必要
+
+--------------------------------------------------
+
+※backendについては3に進む

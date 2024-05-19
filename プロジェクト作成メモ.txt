@@ -1,0 +1,31 @@
+■ backend
+cd C:\Users\user\vscode-workspace\sample
+npm list -g --depth=0
+npm install express-generator --save-dev
+
+express backend --no-view backend
+
+npm install
+
+↓
+
+TypeScript化
+
+
+■ frontend
+PS C:\Users\user> cd C:\Users\user\vscode-workspace\sample
+
+PS C:\Users\user\vscode-workspace\sample> npm create vite@latest
+√ Project name: ... frontend
+√ Select a framework: » React
+√ Select a variant: » TypeScript + SWC
+
+Scaffolding project in C:\Users\user\vscode-workspace\sample\frontend...
+
+Done. Now run:
+
+  cd frontend
+  npm install
+  npm run dev
+
+

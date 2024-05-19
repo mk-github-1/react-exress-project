@@ -1,0 +1,19 @@
+3.Express.jsのプロジェクト作成
+
+■ backend(API専用)プロジェクトの準備
+・backendプロジェクトを作成(express-generatorを使用)
+> mkdir backend
+> cd backend
+> express backend --no-view 
+
+■ いろいろカスタマイズして今の状態になった
+
+■ データベース準備(簡易的なファイルDBのsqlite3を使用するが、TypeORM設定はPostgreSQL用も記載する予定)
+・sqliteをダウンロード、配置
+
+・環境変数追加、動作確認
+
+・DBツールのダウンロード
+HeidgeSQL
+
+・TypeORMのコマンドでDB作成

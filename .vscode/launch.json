@@ -1,0 +1,64 @@
+{
+  // IntelliSense を使用して利用可能な属性を学べます。
+  // 既存の属性の説明をホバーして表示します。
+  // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "frontend-launch",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true
+    },
+    {
+      "name": "frontend-debug",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173", // Viteを利用するので5173としている。create-react-appの場合は3000。
+      "webRoot": "${workspaceFolder}/frontend",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "backend-launch",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/backend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "env": {
+        "PORT": "3000"
+      },
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "restart": true,
+      "sourceMaps": true
+      // "internalConsoleOptions": "neverOpen",
+    }
+  ],
+  "compounds": [
+    {
+      "name": "compound-launch",
+      "configurations": ["frontend-launch", "frontend-debug", "backend-launch"],
+      "stopAll": true
+    }
+  ]
+}
+
+/*
+// node-terminalで書くこともできる
+{
+    "name": "front-end-launch",
+    "type": "node-terminal",
+    "request": "launch",
+    "cwd": "${workspaceFolder}/front-end",
+    "command": "npm start",
+    "env": {
+        "BROWSER": "none"
+    }
+}
+*/
