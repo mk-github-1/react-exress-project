@@ -2,8 +2,9 @@
  * index.ts: Expressアプリケーションのエントリーポイント
  *
  */
+// ■ Express.jsをTypeScript化
+
 // ■ フォルダ移動、ファイル変更: backend/app.js -> backend/src/index.ts
-// ■ TypeScript化
 // var path = require('path');
 import 'reflect-metadata'
 import express, { Express, Request, Response, NextFunction } from 'express' // var express = require('express');
@@ -21,7 +22,17 @@ import { authenticationMiddleware } from './settings/middleware/authenticationMi
 import dotenv from 'dotenv'
 dotenv.config()
 
+// https対応用
+// import { IncomingMessage, ServerResponse } from 'http'
+// import https from 'https'
+// import fs from 'fs-extra'
+
 const app: Express = express() // var app = express();
+
+/**************************************************
+ * Middleware
+ *
+ */
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -29,6 +40,17 @@ app.use(cookieParser())
 
 // ■ 追加: CORSミドルウェアの使用
 app.use(cors())
+
+// ■ 追加: 共通の例外時の処理をするミドルウェア
+app.use(errorMiddleware)
+
+/**************************************************
+ * Routes
+ *
+ */
+// ■ 追加: ルートに応じた認証処理(JWT検証)をするミドルウェア
+// 【勉強用のためOFF】
+// app.use(authenticationMiddleware)
 
 // ■ 追加: API用ルーターをマウント
 app.use('/api', routes())
@@ -45,17 +67,31 @@ app.use((request: Request, response: Response, nextFunction: NextFunction) => {
   return nextFunction()
 })
 
-// ■ 追加: 共通の例外時の処理をするミドルウェア
-app.use(errorMiddleware)
-
-// ■ 追加: ルートに応じた認証処理(JWT検証)をするミドルウェア
-app.use(authenticationMiddleware)
-
+/**************************************************
+ * Listen
+ *
+ */
 // ■ 追加: ポート設定を追加してアプリを起動
 const httpPort: number = 3000 // process.env.PORT ||
 app.listen(httpPort, () => {
   console.log(`Server is running on port ${httpPort}`)
 })
+
+// ■ 追加: httpsを利用する場合
+// ローカル用の証明書を使えるか調査
+/*
+const server: https.Server<typeof IncomingMessage, typeof ServerResponse> = https.createServer(
+  {
+    key: fs.readFileSync('../lets_encript.key'),
+    cert: fs.readFileSync('../lets_encript_fullchain.crt')
+  },
+  app
+)
+
+server.listen(httpPort, () => {
+  console.log(`Server is running on port ${httpPort}`)
+})
+ */
 
 // ■ 追加: TypeORMでデータベース接続を起動
 // mysqlは3306、postresqlは5423、sqliteはダミー番号8000で指定
