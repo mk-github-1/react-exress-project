@@ -52,6 +52,10 @@ app.use(errorMiddleware)
 // ルートに応じた認証処理(JWT検証)をする自作ミドルウェア
 app.use(authenticationMiddleware)
 
+// ■ 削除
+// APIとして利用するため
+// app.use(express.static(path.join(__dirname, "public")));
+
 /**************************************************
  * Routes
  *
@@ -71,6 +75,13 @@ app.use((request: Request, response: Response, nextFunction: NextFunction) => {
   response.status(200).json({ message: '200 OK' })
   return nextFunction()
 })
+
+// ■ 削除
+// APIとして利用するため
+// var indexRouter = require("./routes/index");
+// var usersRouter = require("./routes/users");
+// app.use("/", indexRouter);
+// app.use("/users", usersRouter);
 
 /**************************************************
  * Listen
@@ -112,13 +123,5 @@ app.listen(dbPort, () => {
     // process.exit(1);
   }
 })
-
-// ■ 削除
-// APIとして利用するため
-// var indexRouter = require("./routes/index");
-// var usersRouter = require("./routes/users");
-// app.use(express.static(path.join(__dirname, "public")));
-// app.use("/", indexRouter);
-// app.use("/users", usersRouter);
 
 module.exports = app
