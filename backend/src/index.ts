@@ -5,7 +5,7 @@
 // ■ Express.jsをTypeScript化
 
 // ■ フォルダ移動、ファイル変更: backend/app.js -> backend/src/index.ts
-// var path = require('path');
+// import fs from 'fs-extra' // var path = require('path');
 import 'reflect-metadata'
 import express, { Express, Request, Response, NextFunction } from 'express' // var express = require('express');
 // import createError from 'http-errors' // var createError = require('http-errors');
@@ -16,7 +16,6 @@ import routes from '@/router'
 import { AppDataSource } from '@/data-source'
 import { errorMiddleware } from './settings/middleware/errorMiddleware'
 import { authenticationMiddleware } from './settings/middleware/authenticationMiddleware'
-// import fs from 'fs-extra'
 
 // https対応用
 // import { IncomingMessage, ServerResponse } from 'http'
