@@ -69,7 +69,14 @@ app.use('/api', routes())
 
 // APIアクセス用のルートハンドラ
 app.get('/api', (request: Request, response: Response, nextFunction: NextFunction) => {
-  response.json({ message: '200 OK' })
+  /**********/
+  // ここにfrontendに返すJSON形式のダミーデータを設定する
+  // frontendではJSON.parse(responseText)のようにするとJSONデータをオブジェクト、または配列オブジェクトに変換できる
+  const text: Record<string, string>[] = [{ message: '200 OK' }]
+
+  response.json(text)
+
+  /**********/
   return nextFunction()
 })
 
