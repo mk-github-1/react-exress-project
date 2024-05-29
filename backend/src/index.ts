@@ -2,9 +2,8 @@
  * index.ts: Expressアプリケーションのエントリーポイント
  *
  */
-// ■ Express.jsをTypeScript化
+// 【変更】Express.jsをTypeScript化
 
-// ■ フォルダ移動、ファイル変更: backend/app.js -> backend/src/index.ts
 // import fs from 'fs-extra' // var path = require('path');
 import 'reflect-metadata'
 import express, { Express, Request, Response, NextFunction } from 'express' // var express = require('express');
@@ -15,6 +14,9 @@ import logger from 'morgan' // var logger = require('morgan');
 import routes from '@/router'
 import { AppDataSource } from '@/data-source'
 import { errorMiddleware } from './settings/middleware/errorMiddleware'
+
+// テスト中のため使用していない
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { authenticationMiddleware } from './settings/middleware/authenticationMiddleware'
 
 // https対応用
@@ -29,8 +31,6 @@ import dotenv from 'dotenv'
  *
  */
 const app: Express = express() // var app = express();
-
-// dotenvを追加
 dotenv.config()
 
 /**************************************************
@@ -42,17 +42,19 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-// ■ 追加
+// 【追加】以下のミドルウェアを追加
+
 // CORSミドルウェアの使用 ※localhostでもポート違いにリクエストを送るために必要
 app.use(cors())
 
-// 共通の例外時の処理をする自作ミドルウェア
+// 自作ミドルウェア: 共通の例外時の処理をする
 app.use(errorMiddleware)
 
-// ルートに応じた認証処理(JWT検証)をする自作ミドルウェア
-app.use(authenticationMiddleware)
+// 自作ミドルウェア: ルートに応じた認証処理(JWT検証)をする
+// テスト中のためOFF
+// app.use(authenticationMiddleware)
 
-// ■ 削除
+// 【削除】
 // APIとして利用するため
 // app.use(express.static(path.join(__dirname, "public")));
 
@@ -60,7 +62,8 @@ app.use(authenticationMiddleware)
  * Routes
  *
  */
-// ■ 追加
+// 【変更】以下、APIとして利用する設定、routerの別ファイル化 ※APIの例外はミドルウェアで処理
+
 // API用ルーターをマウント
 app.use('/api', routes())
 
@@ -76,7 +79,7 @@ app.use((request: Request, response: Response, nextFunction: NextFunction) => {
   return nextFunction()
 })
 
-// ■ 削除
+// 【削除】
 // APIとして利用するため
 // var indexRouter = require("./routes/index");
 // var usersRouter = require("./routes/users");
@@ -87,8 +90,7 @@ app.use((request: Request, response: Response, nextFunction: NextFunction) => {
  * Listen
  *
  */
-// ■ 追加
-// ポート設定を追加してアプリを起動
+// 【追加】ポート設定を指定してアプリを起動
 const httpPort: number = 3000 // process.env.PORT ||
 app.listen(httpPort, () => {
   console.log(`Server is running on port ${httpPort}`)
@@ -110,13 +112,15 @@ server.listen(httpPort, () => {
 })
  */
 
-// TypeORMでデータベース接続を起動
-// mysqlは3306、postresqlは5423、sqliteはダミー番号8000で指定
-const dbPort: number = 5000
-app.listen(dbPort, () => {
+// 【追加】TypeORMでデータベース接続を起動
+// sqlite    : 5000(ダミー番号)
+// mysql     : 3306
+// postresql : 5423
+const databasePort: number = 5000
+app.listen(databasePort, () => {
   try {
     AppDataSource.initialize()
-    console.log(`Data Source has been initialized on port ${httpPort}`)
+    console.log(`Data Source has been initialized on port ${databasePort}`)
   } catch (error: unknown) {
     console.error('Error during Data Source initialization:', error)
     throw error
