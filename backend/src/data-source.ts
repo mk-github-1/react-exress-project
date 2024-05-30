@@ -14,7 +14,7 @@ import { ConcurrencySubscriber } from '@/settings/typeorm/ConcurrencySubscriber'
 import dotenv from 'dotenv'
 dotenv.config()
 
-const database: string = path.resolve(__dirname, process.env['database'] as string)
+const database: string = '../data/data.db' // envの使用方法は検証中、path.resolve(__dirname, process.env['database'] as string)
 
 export const AppDataSource: DataSource = new DataSource({
   // 1.利用するデータベース
