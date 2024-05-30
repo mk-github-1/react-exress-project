@@ -2,7 +2,7 @@
  * AppDateSource: TypeORM設定
  *
  */
-import path from 'path'
+// import path from 'path'
 import { DataSource } from 'typeorm'
 import { LoginUserEntity } from '@/domain/entities/auth/LoginUserEntity'
 import { LoginUserRoleEntity } from '@/domain/entities/auth/LoginUserRoleEntity'
@@ -14,15 +14,15 @@ import { ConcurrencySubscriber } from '@/settings/typeorm/ConcurrencySubscriber'
 import dotenv from 'dotenv'
 dotenv.config()
 
-const database: string = '../data/data.db' // envの使用方法は検証中、path.resolve(__dirname, process.env['database'] as string)
+const database: string = '../data/data.db' // envの使用方法は検証中、path.resolve(__dirname, (process.env['database'] !== undefined ? process.env['database'].toString() : ''))
 
 export const AppDataSource: DataSource = new DataSource({
   // 1.利用するデータベース
   type: 'sqlite', // or mysql, mariadb, postgresql, etc
-  // host: process.env['host'] as string, // sqliteは不要
+  // host: process.env['host'] !== undefined ? process.env['host'].toString() : '', // sqliteは不要
   // port: Number(process.env['port']), // mysqlは3306、postresqlは5423、sqliteは不要
-  // username: process.env['username'] as string, // 任意、sqliteは不要
-  // password: process.env['password'] as string, // 任意、sqliteは不要
+  // username: process.env['username'] !== undefined ? process.env['username'].toString() : '', // 任意、sqliteは不要
+  // password: process.env['password'] !== undefined ? process.env['password'].toString() : '', // 任意、sqliteは不要
 
   // mysql, postgresqlはデータベース名
   database: database,
