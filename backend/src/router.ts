@@ -12,7 +12,7 @@ import { loginUserRouter } from '@/interface/controllers/auth/LoginUser/loginUse
 
 // transaction
 
-export default (): Router => {
+export const routes = (): Router => {
   const router: Router = express.Router()
 
   // ルート名は複数系にする

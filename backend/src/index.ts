@@ -2,39 +2,46 @@
  * index.ts: Expressアプリケーションのエントリーポイント
  *
  */
+
+/**************************************************
+ * 1. Imports
+ *
+ */
 // 【変更】Express.jsをTypeScript化
 
-// import fs from 'fs-extra' // var path = require('path');
+// 1. NPM packages
 import 'reflect-metadata'
-import express, { Express, Request, Response, NextFunction } from 'express' // var express = require('express');
-// import createError from 'http-errors' // var createError = require('http-errors');
-import cookieParser from 'cookie-parser' // var cookieParser = require('cookie-parser');
+import express, { Express, Request, Response } from 'express' // 【元コード】var express = require('express');
+import cookieParser from 'cookie-parser' // 【元コード】var cookieParser = require('cookie-parser');
 import cors from 'cors'
-import logger from 'morgan' // var logger = require('morgan');
-import routes from '@/router'
-import { AppDataSource } from '@/data-source'
-import { errorMiddleware } from './settings/middleware/errorMiddleware'
+import dotenv from 'dotenv'
+// import fs from 'fs-extra' //【元コード】var path = require('path');
+import logger from 'morgan' //【元コード】var logger = require('morgan');
 
-// テスト中のため使用していない
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { authenticationMiddleware } from './settings/middleware/authenticationMiddleware'
+// 自作のerrorMiddlewareを使用しているので未使用とした
+// import createError from 'http-errors' // 【元コード】var createError = require('http-errors');
 
 // https対応用
 // import { IncomingMessage, ServerResponse } from 'http'
 // import https from 'https'
-// import fs from 'fs-extra'
 
-import dotenv from 'dotenv'
+// 2. Self const or functions
+import { AppDataSource } from '@/data-source'
+import { routes } from '@/router'
+import { errorMiddleware } from '@/settings/middleware/errorMiddleware'
+
+// テスト中のため使用していない
+// import { authenticationMiddleware } from './settings/middleware/authenticationMiddleware'
 
 /**************************************************
- * Express.js準備
+ * 2. Express & dotenv initialize
  *
  */
-const app: Express = express() // var app = express();
+const app: Express = express() // 【元コード】 var app = express();
 dotenv.config()
 
 /**************************************************
- * Middleware
+ * 3, Middleware settings
  *
  */
 app.use(logger('dev'))
@@ -59,42 +66,50 @@ app.use(errorMiddleware)
 // app.use(express.static(path.join(__dirname, "public")));
 
 /**************************************************
- * Routes
+ * 4. Router settings
  *
  */
-// 【変更】以下、APIとして利用する設定、routerの別ファイル化 ※APIの例外はミドルウェアで処理
+// 【変更】以下、APIとして利用する設定、routerの別ファイル化
 
 // API用ルーターをマウント
 app.use('/api', routes())
 
-// APIアクセス用のルートハンドラ
-app.get('/api', (request: Request, response: Response, nextFunction: NextFunction) => {
-  /**********/
+/**********/
+// ダミーデータ返却用ルート
+app.get('/api', (request: Request, response: Response) => {
   // ここにfrontendに返すJSON形式のダミーデータを設定する
   // frontendではJSON.parse(responseText)のようにするとJSONデータをオブジェクト、または配列オブジェクトに変換できる
+
+  // テストのためRecord型で定義しています。
+  // const text: Record<string, string>[] = { message: '200 OK' }
   const text: Record<string, string>[] = [{ message: '200 OK' }]
 
   response.json(text)
+})
+/**********/
 
-  /**********/
-  return nextFunction()
+// backendでの例外発生時はerrorMiddlewareで処理(動作再確認する)
+
+// 存在しないルートを指定した時、404 Not Foundとする
+app.use('*', (request: Request, response: Response) => {
+  response.status(404).json({ message: '404 Not Found' })
 })
 
-// 共通の成功時の処理
-app.use((request: Request, response: Response, nextFunction: NextFunction) => {
+// 共通の成功時の処理 ※不要？
+/*
+app.use((request: Request, response: Response) => {
   response.status(200).json({ message: '200 OK' })
-  return nextFunction()
 })
+ */
 
-// 【削除】
-// APIとして利用するため
+// 【削除】APIとして利用するため、元コードは削除
 // var indexRouter = require("./routes/index");
 // var usersRouter = require("./routes/users");
 // app.use("/", indexRouter);
 // app.use("/users", usersRouter);
 
 /**************************************************
- * Listen
+ * 5. Server listen
  *
  */
 // 【追加】ポート設定を指定してアプリを起動
@@ -104,7 +119,7 @@ app.listen(httpPort, () => {
 })
 
 // httpsを利用する場合
-// ローカル用の証明書を使えるか調査
+// ローカル用の証明書を使えるか調査が必要
 /*
 const server: https.Server<typeof IncomingMessage, typeof ServerResponse> = https.createServer(
   {
