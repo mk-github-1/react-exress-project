@@ -2,7 +2,14 @@ module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'eslint-config-prettier'],
+  extends: [
+    // ESLintのルールセット
+    'eslint:recommended',
+    // TypeScript ESLintのルールセット
+    'plugin:@typescript-eslint/recommended',
+    // prettierのコード整形を優先するルールセット
+    'eslint-config-prettier'
+  ],
   env: {
     es6: true,
     node: true
